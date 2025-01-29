@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Registration</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f0f8ff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 50px auto;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+
+    <script>
+        // Function to validate member registration form
+        function validateMember() {
+            var groupSelect = document.getElementById("groupSelect").value;
+            var name = document.getElementById("name").value;
+            var id = document.getElementById("id").value;
+            var email = document.getElementById("email").value;
+            var phone = document.getElementById("phone").value;
+
+            if (groupSelect == "" || name == "" || id == "" || email == "" || phone == "") {
+                alert("Please fill in all the fields.");
+                return false;
+            }
+
+            // Basic phone number validation
+            var phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone)) {
+                alert("Please enter a valid 10-digit phone number.");
+                return false;
+            }
+
+            // Basic email validation
+            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+
+            return true;  // Allow form submission
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Member Registration Form -->
+    <div class="form-container">
+        <h2 class="text-center">Member Registration</h2>
+
+        <form action="MemberRegistrationServlet" method="post" onsubmit="return validateMember()">
+            <div class="form-group">
+                <label for="groupSelect">Select Group:</label>
+                <select name="groupId" id="groupSelect" class="form-control" required>
+                    <option value="">Select Group</option>
+                    <option value="1">Group 1</option>
+                    <option value="2">Group 2</option>
+                    <!-- Add more groups here as needed -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required />
+            </div>
+
+            <div class="form-group">
+                <label for="id">ID:</label>
+                <input type="text" id="id" name="id" class="form-control" placeholder="Enter ID" required />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email" required />
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter Phone Number" required />
+            </div>
+
+            <button type="submit" name="action" value="registerMember" class="btn btn-primary btn-block">Submit</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="login.html" class="btn btn-secondary btn-block">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

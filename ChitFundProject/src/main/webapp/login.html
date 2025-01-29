@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+    <div class="form-container mx-auto mt-5" style="max-width: 400px;">
+        <h1 class="text-center mb-4">Login</h1>
+        <!-- Login Form -->
+        <form id="loginForm" action="LoginServlet" method="post" onsubmit="return validateLogin()">
+
+            <div class="form-group">
+                <label for="loginUsername">Username:</label>
+                <input type="text" class="form-control" id="loginUsername" name="username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password:</label>
+                <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Enter your password" required>
+            </div>
+            <!-- Login Button -->
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+        <!-- Option to go back to Home -->
+        <div class="text-center mt-3">
+            <a href="welcome.html" class="btn btn-secondary btn-block">Back to Home</a>
+        </div>
+        <!-- Signup option -->
+        <div class="text-center mt-3">
+            <a href="register.html" class="btn btn-link">Don't have an account? Sign Up</a>
+        </div>
+    </div>
+</body>
+</html>
