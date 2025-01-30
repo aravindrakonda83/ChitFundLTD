@@ -4,34 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    
     <!-- Bootstrap CSS for styling -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+        }
+        /* Bubble Animations */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: floatUp 10s infinite;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Randomized bubble sizes and positions */
+        .bubble:nth-child(1) { width: 50px; height: 50px; left: 10%; animation-delay: 0s; }
+        .bubble:nth-child(2) { width: 70px; height: 70px; left: 30%; animation-delay: 2s; }
+        .bubble:nth-child(3) { width: 40px; height: 40px; left: 50%; animation-delay: 4s; }
+        .bubble:nth-child(4) { width: 60px; height: 60px; left: 70%; animation-delay: 6s; }
+        .bubble:nth-child(5) { width: 30px; height: 30px; left: 90%; animation-delay: 8s; }
+
+        @keyframes floatUp {
+            0% { bottom: -100px; opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { bottom: 120vh; opacity: 0; }
+        }
+        .form-container {
+            background: #ffffff;
+        }
+    </style>
+    
     <script src="scripts.js" defer></script>
 </head>
 <body>
-    <div class="form-container mx-auto mt-5" style="max-width: 400px;">
-        <h1 class="text-center mb-4">Login</h1>
-        <!-- Login Form -->
-        <form id="loginForm" action="LoginServlet" method="post" onsubmit="return validateLogin()">
-
-            <div class="form-group">
-                <label for="loginUsername">Username:</label>
-                <input type="text" class="form-control" id="loginUsername" name="username" placeholder="Enter your username" required>
+    <!-- Floating Bubbles -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="form-container p-4 shadow rounded" style="max-width: 400px; width: 100%;">
+            <h1 class="text-center mb-4">Login</h1>
+            
+            <!-- Login Form -->
+            <form id="loginForm" action="LoginServlet" method="post" onsubmit="return validateLogin()">
+                <div class="form-group">
+                    <label for="loginUsername">Username:</label>
+                    <input type="text" class="form-control" id="loginUsername" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Enter your password" required>
+                </div>
+                <!-- Login Button -->
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            
+            <!-- Navigation Links -->
+            <div class="text-center mt-3">
+                <a href="welcome.html" class="btn btn-secondary btn-block">Back to Home</a>
             </div>
-            <div class="form-group">
-                <label for="loginPassword">Password:</label>
-                <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Enter your password" required>
+            <div class="text-center mt-3">
+                <a href="register.html" class="btn btn-link">Don't have an account? Sign Up</a>
             </div>
-            <!-- Login Button -->
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
-        </form>
-        <!-- Option to go back to Home -->
-        <div class="text-center mt-3">
-            <a href="welcome.html" class="btn btn-secondary btn-block">Back to Home</a>
-        </div>
-        <!-- Signup option -->
-        <div class="text-center mt-3">
-            <a href="register.html" class="btn btn-link">Don't have an account? Sign Up</a>
         </div>
     </div>
 </body>

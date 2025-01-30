@@ -4,33 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+    
     <!-- Bootstrap CSS for styling -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            overflow: hidden;
+        }
+        .form-container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        /* Bubble Animations */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: floatUp 10s infinite;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Randomized bubble sizes and positions */
+        .bubble:nth-child(1) { width: 50px; height: 50px; left: 10%; animation-delay: 0s; }
+        .bubble:nth-child(2) { width: 70px; height: 70px; left: 30%; animation-delay: 2s; }
+        .bubble:nth-child(3) { width: 40px; height: 40px; left: 50%; animation-delay: 4s; }
+        .bubble:nth-child(4) { width: 60px; height: 60px; left: 70%; animation-delay: 6s; }
+        .bubble:nth-child(5) { width: 30px; height: 30px; left: 90%; animation-delay: 8s; }
+
+        @keyframes floatUp {
+            0% { bottom: -100px; opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { bottom: 120vh; opacity: 0; }
+        }
+    </style>
+    
     <script src="scripts.js" defer></script>
 </head>
 <body>
-    <div class="form-container mx-auto mt-5" style="max-width: 400px;">
-        <h1 class="text-center mb-4">Sign Up</h1>
-        <!-- Sign Up Form -->
-        <form id="signupForm" action="RegisterServlet" method="post" onsubmit="return validateSignup()">
-            <div class="form-group">
-                <label for="signupUsername">Username:</label>
-                <input type="text" class="form-control" id="signupUsername" name="username" placeholder="Enter your username" required>
+    <!-- Floating Bubbles -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="form-container p-4 shadow rounded" style="max-width: 400px; width: 100%;">
+            <h1 class="text-center mb-4">Sign Up</h1>
+            
+            <!-- Sign Up Form -->
+            <form id="signupForm" action="RegisterServlet" method="post" onsubmit="return validateSignup()">
+                <div class="form-group">
+                    <label for="signupUsername">Username:</label>
+                    <input type="text" class="form-control" id="signupUsername" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password:</label>
+                    <input type="password" class="form-control" id="signupPassword" name="password" placeholder="Enter your password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                </div>
+                <!-- Sign Up Button -->
+                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+            </form>
+            
+            <!-- Option to go back to Login -->
+            <div class="text-center mt-3">
+                <a href="login.html" class="btn btn-secondary btn-block">Already have an account? Login</a>
             </div>
-            <div class="form-group">
-                <label for="signupPassword">Password:</label>
-                <input type="password" class="form-control" id="signupPassword" name="password" placeholder="Enter your password" required>
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password:</label>
-                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
-            </div>
-            <!-- Sign Up Button -->
-            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-        </form>
-        <!-- Option to go back to Login -->
-        <div class="text-center mt-3">
-            <a href="login.html" class="btn btn-secondary btn-block">Already have an account? Login</a>
         </div>
     </div>
 </body>

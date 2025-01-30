@@ -1,0 +1,396 @@
+/* Global Styles */
+body {
+    background: linear-gradient(135deg, #FF7F50, #6a11cb);
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    animation: gradientShift 20s ease infinite;
+}
+
+/* Background Gradient Animation */
+@keyframes gradientShift {
+    0% {
+        background: linear-gradient(135deg, #FF7F50, #6a11cb);
+    }
+    25% {
+        background: linear-gradient(135deg, #00c6ff, #0072ff);
+    }
+    50% {
+        background: linear-gradient(135deg, #f8ff00, #3ad59f);
+    }
+    75% {
+        background: linear-gradient(135deg, #ff6a00, #ff1493);
+    }
+    100% {
+        background: linear-gradient(135deg, #FF7F50, #6a11cb);
+    }
+}
+
+/* Floating Bubbles Animation */
+@keyframes bubbleAnimation {
+    0% {
+        transform: translateY(0);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(-300px);
+        opacity: 0;
+    }
+}
+
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    animation: bubbleAnimation 10s infinite;
+}
+
+.bubble:nth-child(1) {
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 10%;
+    animation-duration: 12s;
+    animation-delay: -2s;
+    animation-timing-function: ease-out;
+}
+
+.bubble:nth-child(2) {
+    width: 30px;
+    height: 30px;
+    top: 30%;
+    left: 50%;
+    animation-duration: 15s;
+    animation-delay: -1s;
+    animation-timing-function: linear;
+}
+
+.bubble:nth-child(3) {
+    width: 25px;
+    height: 25px;
+    top: 70%;
+    left: 80%;
+    animation-duration: 9s;
+    animation-timing-function: ease-in-out;
+}
+
+/* Cloud Animation */
+@keyframes cloudAnimation {
+    0% {
+        transform: translateX(-200px);
+    }
+    100% {
+        transform: translateX(100vw);
+    }
+}
+
+.cloud {
+    position: absolute;
+    top: 10%;
+    opacity: 0.3;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    width: 150px;
+    height: 60px;
+    animation: cloudAnimation 40s linear infinite;
+}
+
+.cloud:nth-child(1) {
+    top: 15%;
+    left: 5%;
+    animation-duration: 45s;
+}
+
+.cloud:nth-child(2) {
+    top: 20%;
+    left: 20%;
+    animation-duration: 35s;
+}
+
+.cloud:nth-child(3) {
+    top: 30%;
+    left: 50%;
+    animation-duration: 50s;
+}
+
+/* Welcome Container Styles */
+.welcome-container {
+    position: relative;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    text-align: center;
+    padding: 50px 30px;
+    border-radius: 10px;
+    z-index: 1;
+    animation: fadeIn 3s ease;
+}
+
+.welcome-container:hover {
+    transform: scale(1.05);
+}
+
+h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    animation: textAnimation 2s ease-in-out;
+}
+
+@keyframes textAnimation {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.btn-lg {
+    width: 45%;
+    margin: 10px;
+    padding: 15px;
+    font-size: 1.2rem;
+    transition: background-color 0.3s;
+    animation: btnGlow 1.5s infinite alternate;
+}
+
+@keyframes btnGlow {
+    0% {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+    }
+}
+
+.btn-lg:hover {
+    background-color: #3378d0;
+    transform: scale(1.05);
+}
+
+/* Form Container */
+.form-container1 {
+    display: none;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 40%;
+    max-height: 100vh; /* Restricts height to 80% of the viewport */
+    overflow-y: auto; /* Enables vertical scrolling */
+    margin-top:25px;
+        
+    z-index: 1;
+    position: relative; /* Ensures proper positioning in the document flow */
+}
+
+
+
+/* Scrollbar Styling */
+.form-container1::-webkit-scrollbar {
+    width: 8px;
+}
+
+.form-container1::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    border-radius: 4px;
+}
+
+.form-container1::-webkit-scrollbar-thumb:hover {
+    background: #888888;
+}
+
+.form-container1::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+
+/* Form Container Styling */
+.form-container {
+    display: none;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    max-height: 90vh;  /* Prevents overflow */
+    overflow: auto;    /* Allows scrolling if content overflows */
+    z-index: 1;
+}
+
+.form-container.active {
+    display: block;
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-container {
+        width: 90%;
+        max-width: 95%;
+    }
+}
+
+
+
+/* Form Field Animations */
+.form-group label {
+    font-weight: bold;
+    animation: labelAnimation 1s ease-in-out;
+}
+
+@keyframes labelAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-control {
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    animation: inputAnimation 0.5s ease-out;
+}
+
+@keyframes inputAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.form-control:focus {
+    box-shadow: 0 0 8px rgba(58, 133, 255, 0.6);
+    border-color: #3a8bff;
+}
+
+/* Button Glow */
+.btn-primary {
+    background-color: #3a8bff;
+    border-color: #3a8bff;
+    animation: glowEffect 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glowEffect {
+    0% {
+        box-shadow: 0 0 10px rgba(58, 133, 255, 0.6);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(58, 133, 255, 1);
+    }
+}
+
+.btn-primary:hover {
+    background-color: #3378d0;
+    border-color: #3378d0;
+}
+
+.back-btn {
+    margin-top: 20px;
+    width: 100%;
+    font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .welcome-container {
+        margin-top: 30px;
+    }
+
+    .btn-lg {
+        width: 80%;
+    }
+
+    .form-container {
+        width: 90%;
+    }
+}
+body {
+            background: linear-gradient(to bottom, #cce5ff, #e9ecef);
+            font-family: 'Arial', sans-serif;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        h1, h2 {
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .card {
+            border-radius: 15px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .table {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Bubble Animations */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: floatUp 10s infinite;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Randomized bubble sizes and positions */
+        .bubble:nth-child(1) { width: 50px; height: 50px; left: 10%; animation-delay: 0s; }
+        .bubble:nth-child(2) { width: 70px; height: 70px; left: 30%; animation-delay: 2s; }
+        .bubble:nth-child(3) { width: 40px; height: 40px; left: 50%; animation-delay: 4s; }
+        .bubble:nth-child(4) { width: 60px; height: 60px; left: 70%; animation-delay: 6s; }
+        .bubble:nth-child(5) { width: 30px; height: 30px; left: 90%; animation-delay: 8s; }
+
+        @keyframes floatUp {
+            0% {
+                bottom: -100px;
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 120vh;
+                opacity: 0;
+            }
+        }
