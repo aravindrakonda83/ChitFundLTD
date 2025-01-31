@@ -1,11 +1,7 @@
 package com.chitFund;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
+import java.sql.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,40 +10,52 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/CreateGroupServlet")
 public class CreateGroupServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-
-    // Database connection details
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/login_db";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "aravind";
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String groupName = request.getParameter("groupName");
-        String groupAmount = request.getParameter("groupAmount");
+        double groupAmount = Double.parseDouble(request.getParameter("groupAmount"));
+        String startMonth = request.getParameter("startMonth");
+        String endMonth = request.getParameter("endMonth");
+        String description = request.getParameter("description");
+        int createdBy = 1; // Assuming the creator is user with ID 1 for now (this should come from session or user context)
 
-        // Validate input
-        if (groupName == null || groupName.trim().isEmpty() || groupAmount == null || groupAmount.trim().isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Group Name and Amount are required.");
-            return;
-        }
+        // Save the group data to the database
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            // Establishing database connection
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_db", "root", "aravind");
 
-        // Connect to the database and insert group data
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String query = "INSERT INTO groupss (group_name, amount) VALUES (?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(query);
+            // SQL query to insert a new group
+            String query = "INSERT INTO groupss (group_name, amount, start_month, end_month, description, created_by) VALUES (?, ?, ?, ?, ?, ?)";
+            stmt = conn.prepareStatement(query);
             stmt.setString(1, groupName);
-            stmt.setBigDecimal(2, new java.math.BigDecimal(groupAmount));
+            stmt.setDouble(2, groupAmount);
+            stmt.setString(3, startMonth);
+            stmt.setString(4, endMonth);
+            stmt.setString(5, description);
+            stmt.setInt(6, createdBy);
 
-            int result = stmt.executeUpdate();
-            if (result > 0) {
-                response.sendRedirect("dashboard.jsp?message=Group created successfully.");
+            int rowsAffected = stmt.executeUpdate();
+
+            // If the insertion is successful, redirect to the group details page
+            if (rowsAffected > 0) {
+                response.sendRedirect("groupDetails.jsp");
             } else {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while creating the group.");
+                // If something goes wrong, show an error message
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to create group");
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error: " + e.getMessage());
+        } finally {
+            // Clean up resources
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

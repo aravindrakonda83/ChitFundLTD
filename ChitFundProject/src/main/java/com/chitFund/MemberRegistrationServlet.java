@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,4 +57,70 @@ public class MemberRegistrationServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error: " + e.getMessage());
         }
     }
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Set the response type as JSON
+        response.setContentType("application/json");
+        
+        // Fetch groups from the database
+        List<Group> groups = getGroupsFromDatabase();
+
+        // Convert the list of groups to JSON
+        StringBuilder jsonResponse = new StringBuilder();
+        jsonResponse.append("[");
+
+        for (int i = 0; i < groups.size(); i++) {
+            Group group = groups.get(i);
+            jsonResponse.append("{");
+            jsonResponse.append("\"groupId\": ").append(group.getGroupId()).append(", ");
+            jsonResponse.append("\"groupName\": \"").append(group.getGroupName()).append("\"");
+            jsonResponse.append("}");
+            if (i < groups.size() - 1) {
+                jsonResponse.append(", ");
+            }
+        }
+        jsonResponse.append("]");
+
+        // Write the JSON response
+        response.getWriter().write(jsonResponse.toString());
+    }
+
+    private List<Group> getGroupsFromDatabase() {
+        List<Group> groups = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String sql = "SELECT group_id, group_name FROM groupss";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int groupId = rs.getInt("group_id");
+                String groupName = rs.getString("group_name");
+                groups.add(new Group(groupId, groupName));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return groups;
+    }
+
+    // Group class to store group details
+    public static class Group {
+        private int groupId;
+        private String groupName;
+
+        public Group(int groupId, String groupName) {
+            this.groupId = groupId;
+            this.groupName = groupName;
+        }
+
+        public int getGroupId() {
+            return groupId;
+        }
+
+        public String getGroupName() {
+            return groupName;
+        }
+    }
 }
+
+
