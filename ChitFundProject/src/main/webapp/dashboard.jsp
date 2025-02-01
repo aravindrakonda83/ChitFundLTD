@@ -1,3 +1,4 @@
+<%@ page import="java.sql.*" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #fffff;
+            background-color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
         }
@@ -31,7 +32,6 @@
             font-size: 18px;
             font-weight: bold;
             display: block;
-            text:left;
         }
         .menu-bar a:hover {
             text-decoration: underline;
@@ -58,25 +58,52 @@
     <div class="menu-bar">
         <a href="createGroup.html">Create Chit Group</a>
         <a href="registerMember.html">Register Member</a>
-        <a href="registerMember.html">Auction Menu</a>
+        <a href="auctionMenu.jsp">Auction Menu</a>
         <a href="groupDetails.jsp">Available Chit Plans</a>
         <a href="onGoingChitPlans.html">On Going Chit Plans</a>
-        <a href="onGoingChitPlans.html">Why Us?</a>
-        <a href="onGoingChitPlans.html">Contact Us</a>
+        <a href="whyUs.html">Why Us?</a>
+        <a href="contactUs.html">Contact Us</a>
         <a href="logout.jsp">Logout</a>
     </div>
 
     <!-- Welcome Message -->
     <div class="container">
-        <h1>Welcome, ${sessionScope.name}!</h1>
+        <h1>Welcome, Admin.!</h1>
 
         <!-- Select Group to View Members -->
         <div class="form-group">
             <label for="groupSelect"><strong>Select Group:</strong></label>
             <select id="groupSelect" class="form-control">
                 <option value="">-- Select Group --</option>
-                <option value="1">Group 1</option>
-                <option value="2">Group 2</option>
+                <%
+                    Connection conn = null;
+                    PreparedStatement stmt = null;
+                    ResultSet rs = null;
+                    try {
+                        // Establish DB connection
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_db", "root", "aravind");
+
+                        // Query to fetch groups
+                        String sql = "SELECT group_id, group_name FROM groupss";
+                        stmt = conn.prepareStatement(sql);
+                        rs = stmt.executeQuery();
+
+                        while (rs.next()) {
+                            int groupId = rs.getInt("group_id");
+                            String groupName = rs.getString("group_name");
+                %>
+                            <option value="<%= groupId %>"><%= groupName %></option>
+                <%
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+                        try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+                        try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+                    }
+                %>
             </select>
         </div>
 
@@ -86,7 +113,7 @@
         <!-- Navigation Buttons -->
         <div class="d-flex justify-content-end mt-3">
             <a href="login.html" class="btn btn-primary">Go to Home</a>
-            <a href="logut.jsp" class="btn btn-danger">Logout</a>
+            <a href="logout.jsp" class="btn btn-danger">Logout</a>
         </div>
     </div>
 

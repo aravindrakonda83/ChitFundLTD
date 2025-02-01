@@ -26,28 +26,37 @@ public class MemberRegistrationServlet extends HttpServlet {
         String groupId = request.getParameter("groupId");
         String name = request.getParameter("name");
         String id = request.getParameter("id");
+        String age = request.getParameter("age");
+        String gender = request.getParameter("gender");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
+        String occupation = request.getParameter("occupation");
+        String address = request.getParameter("address");
 
-        if (groupId == null || name == null || id == null || email == null || phone == null ||
-            groupId.isEmpty() || name.isEmpty() || id.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+        if (groupId == null || name == null || id == null || age == null || gender == null || 
+            email == null || phone == null || occupation == null || address == null ||
+            groupId.isEmpty() || name.isEmpty() || id.isEmpty() || age.isEmpty() || gender.isEmpty() ||
+            email.isEmpty() || phone.isEmpty() || occupation.isEmpty() || address.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "All fields are required.");
             return;
         }
 
-        // Database connection and data insertion
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String sql = "INSERT INTO members (group_id, name, member_id, email, phone) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = conn.prepareStatement("INSERT INTO members (group_id, name, member_id, age, gender, email, phone, occupation, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+            
             stmt.setString(1, groupId);
             stmt.setString(2, name);
             stmt.setString(3, id);
-            stmt.setString(4, email);
-            stmt.setString(5, phone);
+            stmt.setInt(4, Integer.parseInt(age));
+            stmt.setString(5, gender);
+            stmt.setString(6, email);
+            stmt.setString(7, phone);
+            stmt.setString(8, occupation);
+            stmt.setString(9, address);
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                response.sendRedirect("success.html");  // Redirect to success page
+                response.sendRedirect("success.html"); 
             } else {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database insertion failed.");
             }
@@ -122,5 +131,4 @@ public class MemberRegistrationServlet extends HttpServlet {
         }
     }
 }
-
 

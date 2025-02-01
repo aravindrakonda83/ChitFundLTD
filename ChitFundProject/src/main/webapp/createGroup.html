@@ -7,52 +7,146 @@
     <!-- Bootstrap CSS for styling -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Custom CSS for additional styling -->
+    <style>
+        body {
+            background-color: #f4f7fc; /* Light background color */
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #4CAF50;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+
+        .btn {
+            border-radius: 5px;
+        }
+
+        .form-check-label {
+            color: #555;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 576px) {
+            .form-container {
+                padding: 20px;
+                width: 90%;
+            }
+        }
+    </style>
+
     <script src="scripts.js" defer></script>
 </head>
 <body>
-    <div class="form-container mx-auto mt-5" style="max-width: 400px;">
-    <h1 class="text-center mb-4">Create Group</h1>
-    
-    <!-- Group Creation Form -->
-    <form id="groupForm" action="CreateGroupServlet" method="post" onsubmit="return validateGroup()">
+    <div class="form-container mx-auto mt-5" style="max-width: 700px;">
+        <h1 class="text-center mb-4">Create Group</h1>
+        
+        <!-- Group Creation Form -->
+        <form id="groupForm" action="CreateGroupServlet" method="post" onsubmit="return validateGroup()">
 
-        <div class="form-group">
-            <label for="groupName">Group Name:</label>
-            <input type="text" class="form-control" id="groupName" name="groupName" placeholder="Enter group name" required>
+            <!-- Two columns layout using Bootstrap grid -->
+            <div class="form-row">
+
+                <!-- Group Name -->
+                <div class="form-group col-md-6">
+                    <label for="groupName">Group Name:</label>
+                    <input type="text" class="form-control" id="groupName" name="groupName" placeholder="Enter group name" required>
+                </div>
+
+                <!-- Amount per member -->
+                <div class="form-group col-md-6">
+                    <label for="groupAmount">Amount per Member:</label>
+                    <input type="number" class="form-control" id="groupAmount" name="groupAmount" placeholder="Enter the amount" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <!-- Contribution Frequency -->
+                <div class="form-group col-md-6">
+                    <label for="contributionFrequency">Contribution Frequency:</label>
+                    <select class="form-control" id="contributionFrequency" name="contributionFrequency" required>
+                        <option value="monthly">Monthly</option>
+                        <option value="bi-weekly">Bi-weekly</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                </div>
+
+                <!-- Start Month -->
+                <div class="form-group col-md-6">
+                    <label for="startMonth">Start Month:</label>
+                    <input type="month" class="form-control" id="startMonth" name="startMonth" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <!-- End Month -->
+                <div class="form-group col-md-6">
+                    <label for="endMonth">End Month:</label>
+                    <input type="month" class="form-control" id="endMonth" name="endMonth" required>
+                </div>
+
+                <!-- Interest / Penalty -->
+                <div class="form-group col-md-6">
+                    <label for="interestPenalty">Interest/Penalty on late payment:</label>
+                    <input type="number" class="form-control" id="interestPenalty" name="interestPenalty" placeholder="Enter interest or penalty (if any)" step="0.01">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <!-- Prize Distribution Method -->
+                <div class="form-group col-md-6">
+                    <label for="prizeMethod">Prize Distribution Method:</label>
+                    <select class="form-control" id="prizeMethod" name="prizeMethod" required>
+                        <option value="lottery">Lottery</option>
+                        <option value="rotating">Rotating</option>
+                    </select>
+                </div>
+
+                <!-- Security Deposit (Optional) -->
+                <div class="form-group col-md-6">
+                    <label for="securityDeposit">Security Deposit (Optional):</label>
+                    <input type="number" class="form-control" id="securityDeposit" name="securityDeposit" placeholder="Enter security deposit (optional)" step="0.01">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <!-- Description -->
+                <div class="form-group col-md-12">
+                    <label for="description">Description (Optional):</label>
+                    <textarea class="form-control" id="description" name="description" placeholder="Enter a brief description of the group (optional)"></textarea>
+                </div>
+            </div>
+
+            <!-- Terms & Conditions -->
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="termsAndConditions" name="termsAndConditions" required>
+                <label class="form-check-label" for="termsAndConditions">I agree to the terms and conditions</label>
+            </div>
+
+            <!-- Create Group Button -->
+            <button type="submit" class="btn btn-success btn-block">Create Group</button>
+        </form>
+        
+        <!-- Option to go back to Home -->
+        <div class="text-center mt-3">
+            <a href="dashboard.jsp" class="btn btn-secondary btn-block">Back to Home</a>
         </div>
-
-        <div class="form-group">
-            <label for="groupAmount">Amount:</label>
-            <input type="number" class="form-control" id="groupAmount" name="groupAmount" placeholder="Enter the amount" required>
-        </div>
-
-        <!-- Start Month -->
-        <div class="form-group">
-            <label for="startMonth">Start Month:</label>
-            <input type="month" class="form-control" id="startMonth" name="startMonth" required>
-        </div>
-
-        <!-- End Month -->
-        <div class="form-group">
-            <label for="endMonth">End Month:</label>
-            <input type="month" class="form-control" id="endMonth" name="endMonth" required>
-        </div>
-
-        <!-- Description -->
-        <div class="form-group">
-            <label for="description">Description (Optional):</label>
-            <textarea class="form-control" id="description" name="description" placeholder="Enter a brief description of the group (optional)"></textarea>
-        </div>
-
-        <!-- Create Group Button -->
-        <button type="submit" class="btn btn-success btn-block">Create Group</button>
-    </form>
-    
-    <!-- Option to go back to Home -->
-    <div class="text-center mt-3">
-        <a href="dashboard.jsp" class="btn btn-secondary btn-block">Back to Home</a>
     </div>
-</div>
 
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
