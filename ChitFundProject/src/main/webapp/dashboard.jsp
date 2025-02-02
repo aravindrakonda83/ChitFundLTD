@@ -161,7 +161,7 @@
     <div class="menu-bar">
         <a href="createGroup.html">Create Chit Group</a>
         <a href="registerMember.html">Register Member</a>
-        <a href="auctionMenu.jsp">Auction Menu</a>
+        <a href="auction.html">Auction Menu</a>
         <a href="groupDetails.jsp">Available Chit Plans</a>
         <a href="onGoingChitPlans.html">On Going Chit Plans</a>
         <a href="whyUs.html">Why Us?</a>

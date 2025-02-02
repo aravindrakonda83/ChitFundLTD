@@ -91,64 +91,74 @@
 
     </style>
     <script>
-        $(document).ready(function () {
-            // Fetch Groups
-            $.ajax({
-                url: "GroupListServlet",
-                type: "GET",
-                dataType: "json",
-                success: function (data) {
-                    $("#groupSelect").empty().append('<option value="">-- Select Group --</option>');
-                    $.each(data, function (index, group) {
-                        $("#groupSelect").append('<option value="' + group.id + '">' + group.name + '</option>');
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error fetching groups:", error);
-                    alert("Failed to load groups. Please try again.");
-                }
-            });
+    $(document).ready(function () {
+        // Fetch Groups
+        $.ajax({
+            url: "GroupListServlet",
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                $("#groupSelect").empty().append('<option value="">-- Select Group --</option>');
+                $.each(data, function (index, group) {
+                    $("#groupSelect").append('<option value="' + group.id + '">' + group.name + '</option>');
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching groups:", error);
+                alert("Failed to load groups. Please try again.");
+            }
+        });
 
-            // Fetch Members for Auction
-            $.ajax({
-                url: "MemberListServlet",  // Replace with correct servlet URL
-                type: "GET",
-                dataType: "json",
-                success: function (data) {
-                    $("#memberSelect").empty().append('<option value="">-- Select Member --</option>');
-                    $.each(data, function (index, member) {
-                        $("#memberSelect").append('<option value="' + member.member_id + '">' + member.name + '</option>');
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error fetching members:", error);
-                    alert("Failed to load members. Please try again.");
-                }
-            });
+        // Fetch members when a group is selected
+        $("#groupSelect").change(function () {
+            var groupId = $(this).val();
 
-            // Handle Auction form submission
-            $("#auctionForm").submit(function (event) {
-                event.preventDefault();
-
+            if (groupId) {
                 $.ajax({
-                    url: "AuctionServlet",
-                    type: "POST",
-                    data: $(this).serialize(),
-                    dataType: "json",  // Expect JSON response
-                    success: function (response) {
-                        if (response.status === "success") {
-                            alert("Auction created successfully!");
-                            $("#auctionForm")[0].reset();
-                        } else {
-                            alert("Failed to create auction: " + response.message);
-                        }
+                    url: "MemberListServlet",
+                    type: "GET",
+                    data: { groupId: groupId },  // Pass groupId as a parameter
+                    dataType: "json",
+                    success: function (data) {
+                        $("#memberSelect").empty().append('<option value="">-- Select Member --</option>');
+                        $.each(data, function (index, member) {
+                            $("#memberSelect").append('<option value="' + member.member_id + '">' + member.name + '</option>');
+                        });
                     },
                     error: function (xhr, status, error) {
-                        alert("Error creating auction: " + error);
+                        console.error("Error fetching members:", error);
+                        alert("Failed to load members. Please try again.");
                     }
                 });
+            } else {
+                $("#memberSelect").empty().append('<option value="">-- Select Member --</option>');
+            }
+        });
+
+        // Handle Auction form submission
+        $("#auctionForm").submit(function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: "AuctionServlet",
+                type: "POST",
+                data: $(this).serialize(),
+                dataType: "json",  
+                success: function (response) {
+                    if (response.status === "success") {
+                        alert("Auction created successfully!");
+                        $("#auctionForm")[0].reset();
+                    } else {
+                        alert("Failed to create auction: " + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Error creating auction: " + error);
+                }
             });
         });
+    });
+
     </script>
 </head>
 <body>

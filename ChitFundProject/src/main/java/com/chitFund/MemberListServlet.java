@@ -27,12 +27,21 @@ public class MemberListServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        JSONArray membersArray = new JSONArray();
+        String groupId = request.getParameter("groupId"); // Get the selected groupId from the request
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement stmt = conn.prepareStatement("SELECT member_id, name FROM members")) {
-            
-            ResultSet rs = stmt.executeQuery();
+        JSONArray membersArray = new JSONArray();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+            String sql = "SELECT member_id, name FROM members WHERE group_id = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, Integer.parseInt(groupId)); // Bind the groupId parameter
+
+            rs = stmt.executeQuery();
 
             while (rs.next()) {
                 JSONObject memberObject = new JSONObject();
@@ -41,10 +50,13 @@ public class MemberListServlet extends HttpServlet {
                 membersArray.put(memberObject);
             }
 
-        } catch (SQLException e) {
+            response.getWriter().write(membersArray.toString());
+        } catch (SQLException | NumberFormatException e) {
             e.printStackTrace();
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
-
-        response.getWriter().write(membersArray.toString());
     }
 }
