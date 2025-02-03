@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Bid</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { background-color: #f7f8fc; font-family: 'Arial', sans-serif; }
+        .container { margin-top: 50px; }
+        .card { background-color: #fff; border-radius: 12px; padding: 20px; }
+        .card-header { background-color: #4f5d52; color: white; font-size: 1.5rem; font-weight: bold; text-align: center; }
+        .form-group { margin-bottom: 20px; }
+        .form-control { border-radius: 8px; }
+        .btn-primary { background-color: #4f5d52; border: none; transition: background-color 0.3s; }
+        .btn-primary:hover { background-color: #3b4a3c; }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+        	$.ajax({
+        	    url: "AuctionServlet?action=getAuctions",  // Ensure this is the correct URL and action
+        	    type: "GET",
+        	    dataType: "json",
+        	    success: function (data) {
+        	        console.log("Response from server (auctions):", data); // Debugging the response
+        	        // Your existing code to populate the select element
+        	    },
+        	    error: function () {
+        	        alert("Failed to load auctions.");
+        	    }
+        	});
+
+
+            // Submit bid
+            $("#bidForm").submit(function (event) {
+                event.preventDefault();
+
+                var auctionId = $("#auctionSelect").val();
+                var bidAmount = $("#bidAmount").val();
+
+                if (!auctionId || !bidAmount || bidAmount <= 0) {
+                    alert("Please select an auction and enter a valid bid amount.");
+                    return;
+                }
+
+                // Send bid data
+                $.ajax({
+                    url: "BidServlet",
+                    type: "POST",
+                    data: $(this).serialize(),
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status === "success") {
+                            alert("Bid placed successfully!");
+                            $("#bidForm")[0].reset();
+                        } else {
+                            alert("Bid failed: " + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert("Error placing bid.");
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Submit a Bid</div>
+            <form id="bidForm">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="auctionSelect">Select Auction:</label>
+                        <select id="auctionSelect" name="auctionId" class="form-control" required>
+                            <option value="">Loading auctions...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bidAmount">Enter Bid Amount:</label>
+                        <input type="number" name="bidAmount" id="bidAmount" class="form-control" required />
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Place Bid</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -4,75 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Group</title>
-    <!-- Bootstrap CSS for styling -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS for additional styling -->
     <style>
         body {
-            background-color: #f4f7fc; /* Light background color */
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
+            box-sizing: border-box;
         }
 
+        /* Top Banner */
+        .top-banner {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 28px;
+            font-weight: bold;
+            color: #FFD700;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        /* Sidebar Navigation */
+        .menu-bar {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .menu-bar a {
+            color: #ffffff;
+            margin: 15px 0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .menu-bar a:hover {
+            color: #FFD700;
+            text-decoration: underline;
+            transform: scale(1.1);
+        }
+
+        /* Form Container */
         .form-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            max-width: 750px;
+            margin: 80px auto;
         }
 
-        h1 {
-            font-size: 2rem;
-            color: #4CAF50;
-        }
+        @media (max-width: 768px) {
+            .menu-bar {
+                width: 200px;
+            }
 
-        .form-control {
-            border-radius: 5px;
-        }
-
-        .btn {
-            border-radius: 5px;
-        }
-
-        .form-check-label {
-            color: #555;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 576px) {
             .form-container {
-                padding: 20px;
-                width: 90%;
+                margin: 20px;
             }
         }
-    </style>
 
-    <script src="scripts.js" defer></script>
+        /* Button Styles */
+        .btn-block {
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
-    <div class="form-container mx-auto mt-5" style="max-width: 700px;">
+    <!-- Top Banner -->
+    <div class="top-banner">
+        Premier ChitFund Management System
+    </div>
+    
+    <!-- Sidebar Menu -->
+    <div class="menu-bar">
+        <a href="createGroup.html">Create Chit Group</a>
+        <a href="registerMember.html">Register Member</a>
+        <a href="auction.html">Auction Menu</a>
+        <a href="groupDetails.jsp">Available Chit Plans</a>
+        <a href="onGoingChitPlans.html">On Going Chit Plans</a>
+        <a href="whyUs.html">Why Us?</a>
+        <a href="contactUs.html">Contact Us</a>
+        <a href="logout.jsp">Logout</a>
+    </div>
+
+    <!-- Group Creation Form -->
+    <div class="form-container">
         <h1 class="text-center mb-4">Create Group</h1>
-        
-        <!-- Group Creation Form -->
-        <form id="groupForm" action="CreateGroupServlet" method="post" onsubmit="return validateGroup()">
-
-            <!-- Two columns layout using Bootstrap grid -->
+        <form id="groupForm" action="CreateGroupServlet" method="post">
             <div class="form-row">
-
-                <!-- Group Name -->
                 <div class="form-group col-md-6">
                     <label for="groupName">Group Name:</label>
-                    <input type="text" class="form-control" id="groupName" name="groupName" placeholder="Enter group name" required>
+                    <input type="text" class="form-control" id="groupName" name="groupName" required>
                 </div>
-
-                <!-- Amount per member -->
                 <div class="form-group col-md-6">
                     <label for="groupAmount">Amount per Member:</label>
-                    <input type="number" class="form-control" id="groupAmount" name="groupAmount" placeholder="Enter the amount" required>
+                    <input type="number" class="form-control" id="groupAmount" name="groupAmount" required>
                 </div>
             </div>
-
             <div class="form-row">
-                <!-- Contribution Frequency -->
                 <div class="form-group col-md-6">
                     <label for="contributionFrequency">Contribution Frequency:</label>
                     <select class="form-control" id="contributionFrequency" name="contributionFrequency" required>
@@ -81,30 +128,22 @@
                         <option value="weekly">Weekly</option>
                     </select>
                 </div>
-
-                <!-- Start Month -->
                 <div class="form-group col-md-6">
                     <label for="startMonth">Start Month:</label>
                     <input type="month" class="form-control" id="startMonth" name="startMonth" required>
                 </div>
             </div>
-
             <div class="form-row">
-                <!-- End Month -->
                 <div class="form-group col-md-6">
                     <label for="endMonth">End Month:</label>
                     <input type="month" class="form-control" id="endMonth" name="endMonth" required>
                 </div>
-
-                <!-- Interest / Penalty -->
                 <div class="form-group col-md-6">
                     <label for="interestPenalty">Interest/Penalty on late payment:</label>
-                    <input type="number" class="form-control" id="interestPenalty" name="interestPenalty" placeholder="Enter interest or penalty (if any)" step="0.01">
+                    <input type="number" class="form-control" id="interestPenalty" name="interestPenalty" step="0.01">
                 </div>
             </div>
-
             <div class="form-row">
-                <!-- Prize Distribution Method -->
                 <div class="form-group col-md-6">
                     <label for="prizeMethod">Prize Distribution Method:</label>
                     <select class="form-control" id="prizeMethod" name="prizeMethod" required>
@@ -112,41 +151,29 @@
                         <option value="rotating">Rotating</option>
                     </select>
                 </div>
-
-                <!-- Security Deposit (Optional) -->
                 <div class="form-group col-md-6">
                     <label for="securityDeposit">Security Deposit (Optional):</label>
-                    <input type="number" class="form-control" id="securityDeposit" name="securityDeposit" placeholder="Enter security deposit (optional)" step="0.01">
+                    <input type="number" class="form-control" id="securityDeposit" name="securityDeposit" step="0.01">
                 </div>
             </div>
-
-            <div class="form-row">
-                <!-- Description -->
-                <div class="form-group col-md-12">
-                    <label for="description">Description (Optional):</label>
-                    <textarea class="form-control" id="description" name="description" placeholder="Enter a brief description of the group (optional)"></textarea>
-                </div>
+            <div class="form-group">
+                <label for="description">Description (Optional):</label>
+                <textarea class="form-control" id="description" name="description"></textarea>
             </div>
-
-            <!-- Terms & Conditions -->
             <div class="form-group form-check">
                 <input type="checkbox" class="form-check-input" id="termsAndConditions" name="termsAndConditions" required>
                 <label class="form-check-label" for="termsAndConditions">I agree to the terms and conditions</label>
             </div>
-
-            <!-- Create Group Button -->
             <button type="submit" class="btn btn-success btn-block">Create Group</button>
+            <div class="text-center mt-3">
+                <a href="dashboard.jsp" class="btn btn-secondary btn-block">Back to Home</a>
+            </div>
         </form>
-        
-        <!-- Option to go back to Home -->
-        <div class="text-center mt-3">
-            <a href="dashboard.jsp" class="btn btn-secondary btn-block">Back to Home</a>
-        </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

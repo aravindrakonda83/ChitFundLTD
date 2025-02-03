@@ -23,51 +23,61 @@ public class AuctionServlet extends HttpServlet {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "aravind";
 
-    // GET method to fetch groups or members based on request
+    // General method to fetch groups, members, or auctions
+    private JSONArray fetchData(Connection conn, String action, String groupId) throws SQLException {
+        JSONArray jsonArray = new JSONArray();
+        String query = null;
+
+        if ("getGroups".equals(action)) {
+            query = "SELECT group_id, group_name FROM groupss";
+        } else if ("getMembers".equals(action)) {
+            query = "SELECT member_id, name FROM members WHERE group_id = ?";
+        } else if ("getAuctions".equals(action)) {
+            query = "SELECT auction_id, auction_name FROM auctions";
+        }
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            if ("getMembers".equals(action)) {
+                stmt.setInt(1, Integer.parseInt(groupId));
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    JSONObject obj = new JSONObject();
+                    if ("getGroups".equals(action) || "getAuctions".equals(action)) {
+                        obj.put("id", rs.getInt("group_id"));
+                        obj.put("name", rs.getString("group_name"));
+                    } else if ("getMembers".equals(action)) {
+                        obj.put("memberId", rs.getInt("member_id"));
+                        obj.put("name", rs.getString("name"));
+                    }
+                    jsonArray.put(obj);
+                }
+            }
+        }
+
+        return jsonArray;
+    }
+
+    // GET method to handle fetching groups, members, or auctions based on the request
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         String action = request.getParameter("action");
+        String groupId = request.getParameter("groupId");
+
         JSONArray jsonArray = new JSONArray();
-
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            if ("getGroups".equals(action)) {
-                // Fetch groups from the database
-                String query = "SELECT group_id, group_name FROM groupss";
-                try (PreparedStatement stmt = conn.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
-                    while (rs.next()) {
-                        JSONObject group = new JSONObject();
-                        group.put("groupId", rs.getInt("group_id"));
-                        group.put("groupName", rs.getString("group_name"));
-                        jsonArray.put(group);
-                    }
-                }
-            } else if ("getMembers".equals(action)) {
-                String groupId = request.getParameter("groupId");
-                // Fetch members for the selected group
-                String query = "SELECT member_id, name FROM members WHERE group_id = ?";
-                try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                    stmt.setInt(1, Integer.parseInt(groupId));
-                    try (ResultSet rs = stmt.executeQuery()) {
-                        while (rs.next()) {
-                            JSONObject member = new JSONObject();
-                            member.put("memberId", rs.getInt("member_id"));
-                            member.put("name", rs.getString("name"));
-                            jsonArray.put(member);
-                        }
-                    }
-                }
-            }
-
+            jsonArray = fetchData(conn, action, groupId);
             response.getWriter().write(jsonArray.toString());
-
         } catch (SQLException e) {
             e.printStackTrace();
+            response.getWriter().write("{\"status\":\"error\", \"message\":\"" + e.getMessage() + "\"}");
         }
     }
 
- // POST method to create a new auction
+    // POST method to create a new auction
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

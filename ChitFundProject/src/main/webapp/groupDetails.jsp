@@ -1,25 +1,69 @@
-<%@ page import="java.sql.*" %>
-<%@ page import="java.time.LocalDate" %>
-<%@ page import="java.time.temporal.ChronoUnit" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page import="java.sql.*, java.time.LocalDate, java.time.temporal.ChronoUnit" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Details</title>
+    <title>Navigation & Group Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Top Banner */
+        .top-banner {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 28px;
+            font-weight: bold;
+            color: #FFD700;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        /* Sidebar Navigation */
+        .menu-bar {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 60px;
+            left: 0;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .menu-bar a {
+            color: #ffffff;
+            margin: 15px 0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .menu-bar a:hover {
+            color: #FFD700;
+            text-decoration: underline;
+            transform: scale(1.1);
         }
 
         .container {
+            margin-left: 270px;
+            margin-top: 100px; /* space for top banner */
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
@@ -70,21 +114,41 @@
         .btn-secondary:hover {
             background-color: #5a6268;
         }
-
     </style>
 </head>
 <body>
 
-    <h1>Group Details</h1>
-    
+    <!-- Top Banner -->
+    <div class="top-banner">
+        Premier ChitFund Management System
+    </div>
+
+    <!-- Sidebar Menu -->
+    <div class="menu-bar">
+        <a href="createGroup.jsp">Create Chit Group</a>
+        <a href="registerMember.jsp">Register Member</a>
+        <a href="auction.jsp">Auction Menu</a>
+        <a href="groupDetails.jsp">Available Chit Plans</a>
+        <a href="onGoingChitPlans.jsp">On Going Chit Plans</a>
+        <a href="whyUs.jsp">Why Us?</a>
+        <a href="contactUs.jsp">Contact Us</a>
+        <a href="logout.jsp">Logout</a>
+    </div>
+
+    <!-- Group Details Section -->
     <div class="container">
+        
+
         <%
             Connection conn = null;
             Statement stmt = null;
             ResultSet rs = null;
 
             try {
+                // Establishing connection to the database
                 conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/login_db", "root", "aravind");
+
+                // Query to fetch group details
                 String query = "SELECT * FROM groupss";
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery(query);
@@ -96,7 +160,7 @@
                     String endMonth = rs.getString("end_month");
                     String description = rs.getString("description") != null ? rs.getString("description") : "No description available";
 
-                    // Calculate duration
+                    // Calculate duration between start and end dates
                     String[] startParts = startMonth.split("-");
                     String[] endParts = endMonth.split("-");
 
@@ -104,6 +168,7 @@
                     LocalDate endDate = LocalDate.of(Integer.parseInt(endParts[0]), Integer.parseInt(endParts[1]), 1);
                     long durationInMonths = ChronoUnit.MONTHS.between(startDate, endDate);
         %>
+        <!-- Group Details Heading -->
         <div class="card">
             <h2>Amount: <%= amount %></h2>
             <p>Location: <%= groupName %>, TELANGANA</p>

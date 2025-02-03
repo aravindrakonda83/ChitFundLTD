@@ -3,37 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Member Registration</title>
+    <title>Navigation & Member Registration</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    
     <style>
         body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
             background: linear-gradient(135deg, #f8f9fa, #e3e3e3);
-            font-family: 'Arial', sans-serif;
         }
+
+        
+        .top-banner {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 28px;
+            font-weight: bold;
+            color: #FFD700;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        /* Sidebar Navigation */
+        .menu-bar {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .menu-bar a {
+            color: #ffffff;
+            margin: 15px 0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .menu-bar a:hover {
+            color: #FFD700;
+            text-decoration: underline;
+            transform: scale(1.1);
+        }
+
+        /* Form Container */
         .form-container {
             background: #fff;
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
             max-width: 750px;
-            margin: 50px auto;
+            margin: 30px auto; /* Centered and with space from the top */
         }
+
         h2 {
             color: #333;
             text-align: center;
             margin-bottom: 30px;
             font-weight: bold;
         }
+
         .form-control {
             border-radius: 5px;
             transition: all 0.3s ease;
         }
+
         .form-control:focus {
             border-color: #007bff;
             box-shadow: 0 0 12px rgba(0, 123, 255, 0.5);
             transform: scale(1.02);
         }
+
         .btn-primary {
             background-color: #007bff;
             border: none;
@@ -41,84 +94,115 @@
             border-radius: 5px;
             transition: all 0.3s ease-in-out;
         }
+
         .btn-primary:hover {
             background-color: #0056b3;
             transform: scale(1.05);
         }
+
         .btn-secondary {
             background-color: #6c757d;
             border: none;
             padding: 12px;
             transition: all 0.3s ease-in-out;
         }
+
         .btn-secondary:hover {
             background-color: #5a6268;
             transform: scale(1.05);
         }
+
+        /* Make sure content is not hidden by the fixed navigation */
+        .content {
+            margin-left: 270px; /* Sidebar width */
+            padding-top: 100px; /* Top banner height */
+        }
+
     </style>
 </head>
 <body>
-    <div class="form-container">
-        <h2>Member Registration</h2>
-        <form action="MemberRegistrationServlet" method="post">
-            <div class="form-group">
-                <label for="groupSelect">Select Group:</label>
-                <select name="groupId" id="groupSelect" class="form-control" required>
-                    <option value="">Select Group</option>
-                </select>
-            </div>
-            <div class="form-row">
-                <div class="col-md-6 form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required />
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="id">ID:</label>
-                    <input type="text" id="id" name="id" class="form-control" placeholder="Enter ID" required />
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-6 form-group">
-                    <label for="age">Age:</label>
-                    <input type="number" id="age" name="age" class="form-control" placeholder="Enter Age" required />
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="gender">Gender:</label>
-                    <select id="gender" name="gender" class="form-control" required>
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
+    <!-- Top Banner -->
+    <div class="top-banner">
+        Premier ChitFund Management System
+    </div>
+    
+    <!-- Sidebar Menu -->
+    <div class="menu-bar">
+        <a href="createGroup.html">Create Chit Group</a>
+        <a href="registerMember.html">Register Member</a>
+        <a href="auction.html">Auction Menu</a>
+        <a href="groupDetails.jsp">Available Chit Plans</a>
+        <a href="onGoingChitPlans.html">On Going Chit Plans</a>
+        <a href="whyUs.html">Why Us?</a>
+        <a href="contactUs.html">Contact Us</a>
+        <a href="logout.jsp">Logout</a>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="content">
+        <div class="form-container">
+            <h2>Member Registration</h2>
+            <form action="MemberRegistrationServlet" method="post">
+                <div class="form-group">
+                    <label for="groupSelect">Select Group:</label>
+                    <select name="groupId" id="groupSelect" class="form-control" required>
+                        <option value="">Select Group</option>
                     </select>
                 </div>
+                <div class="form-row">
+                    <div class="col-md-6 form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name" required />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="id">ID:</label>
+                        <input type="text" id="id" name="id" class="form-control" placeholder="Enter ID" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 form-group">
+                        <label for="age">Age:</label>
+                        <input type="number" id="age" name="age" class="form-control" placeholder="Enter Age" required />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender" class="form-control" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email" required />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter Phone Number" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 form-group">
+                        <label for="occupation">Occupation:</label>
+                        <input type="text" id="occupation" name="occupation" class="form-control" placeholder="Enter Occupation" required />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="address">Address:</label>
+                        <textarea id="address" name="address" class="form-control" placeholder="Enter Address" rows="2" required></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </form>
+            <div class="text-center mt-3">
+                <a href="dashboard.jsp" class="btn btn-secondary btn-block">Back to Home</a>
             </div>
-            <div class="form-row">
-                <div class="col-md-6 form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email" required />
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="phone">Phone Number:</label>
-                    <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter Phone Number" required />
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-6 form-group">
-                    <label for="occupation">Occupation:</label>
-                    <input type="text" id="occupation" name="occupation" class="form-control" placeholder="Enter Occupation" required />
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="address">Address:</label>
-                    <textarea id="address" name="address" class="form-control" placeholder="Enter Address" rows="2" required></textarea>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Submit</button>
-        </form>
-        <div class="text-center mt-3">
-            <a href="dashboard.jsp" class="btn btn-secondary btn-block">Back to Home</a>
         </div>
     </div>
-        <!-- Bootstrap JS and dependencies -->
+
+    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

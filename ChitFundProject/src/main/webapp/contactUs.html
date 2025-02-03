@@ -7,47 +7,177 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #343a40; /* Dark background color */
-            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            color: black;
             margin: 0;
-            height: 100vh; /* Full height */
+            padding: 0;
+            background-size: cover;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
         }
-        .container {
-            max-width: 800px;
-            background: white;
+
+        
+        .top-banner {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 28px;
+            font-weight: bold;
+            color: #FFD700;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        /* Sidebar Navigation */
+        .menu-bar {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            display: flex;
+            flex-direction: column;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-bar a {
+            color: #ffffff;
+            margin: 15px 0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .menu-bar a:hover {
+            color: #FFD700;
+            text-decoration: underline;
+            transform: scale(1.1);
+        }
+
+        /* Main Content */
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+            margin-left: 250px;
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
         }
-        h1 {
-            color: #007bff;
+
+        .image-container {
+            flex: 1;
+            text-align: center;
         }
-        .image {
-            flex: 0 0 250px; /* Increased image size */
-            margin-right: 20px;
+
+        .image-container img {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
         }
+
         .content {
-            color: #343a40;
-            text-align: left;
+            flex: 2;
+            padding-left: 30px;
         }
-        .content p {
-            font-size: 1.1em;
+
+        h1 {
+            color: #FFD700;
+            margin-bottom: 15px;
         }
-        .btn {
-            background-color: #007bff;
-            color: white;
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #FFD700;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 15px;
+            border-radius: 5px;
+            color: black;
+        }
+
+        .btn-primary:hover {
+            background-color: #d4af37;
+        }
+
+        @media (max-width: 992px) {
+            .content-wrapper {
+                flex-direction: column;
+                margin-left: 0;
+                width: 100%;
+                padding-top: 100px;
+            }
+            .menu-bar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                text-align: center;
+            }
+            .container {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            .content {
+                padding-left: 0;
+            }
         }
     </style>
 </head>
 <body>
-
+    <!-- Top Banner -->
+    <div class="top-banner">
+        Premier ChitFund Management System
+    </div>
+    
+    <!-- Sidebar Menu -->
+    <div class="menu-bar">
+        <a href="createGroup.html">Create Chit Group</a>
+        <a href="registerMember.html">Register Member</a>
+        <a href="auction.html">Auction Menu</a>
+        <a href="groupDetails.jsp">Available Chit Plans</a>
+        <a href="onGoingChitPlans.html">On Going Chit Plans</a>
+        <a href="whyUs.html">Why Us?</a>
+        <a href="contactUs.html">Contact Us</a>
+        <a href="logout.jsp">Logout</a>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content-wrapper">
     <div class="container">
         <div class="image">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe6vlWG6nrpWI_gojT-usGx0_HFpY6tXnMfQ&s" alt="Contact Us" style="width: 100%; height: auto; border-radius: 10px;">
@@ -61,6 +191,6 @@
             <a href="dashboard.jsp" class="btn btn-primary">Back to Home</a>
         </div>
     </div>
-
+    </div>
 </body>
 </html>

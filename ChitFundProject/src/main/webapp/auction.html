@@ -4,16 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Auction</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
-            background-color: #f7f8fc;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
         }
 
+        /* Top Banner */
+        .top-banner {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 28px;
+            font-weight: bold;
+            color: #FFD700;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        /* Sidebar Navigation */
+        .menu-bar {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .menu-bar a {
+            color: #ffffff;
+            margin: 15px 0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .menu-bar a:hover {
+            color: #FFD700;
+            text-decoration: underline;
+            transform: scale(1.1);
+        }
+
+        /* Auction Form Styling */
         .container {
-            margin-top: 50px;
+            margin-top: 80px; /* To accommodate top banner */
         }
 
         .card {
@@ -21,6 +70,8 @@
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 12px;
             padding: 20px;
+            margin-left: 270px; /* To avoid overlapping with the sidebar */
+            max-width: 800px;
         }
 
         .card-header {
@@ -88,7 +139,6 @@
         .btn-danger:hover {
             transform: translateY(-3px);
         }
-
     </style>
     <script>
     $(document).ready(function () {
@@ -158,10 +208,27 @@
             });
         });
     });
-
     </script>
 </head>
 <body>
+    <!-- Top Banner -->
+    <div class="top-banner">
+        Premier ChitFund Management System
+    </div>
+    
+    <!-- Sidebar Menu -->
+    <div class="menu-bar">
+        <a href="createGroup.html">Create Chit Group</a>
+        <a href="registerMember.html">Register Member</a>
+        <a href="auction.html">Auction Menu</a>
+        <a href="groupDetails.jsp">Available Chit Plans</a>
+        <a href="onGoingChitPlans.html">On Going Chit Plans</a>
+        <a href="whyUs.html">Why Us?</a>
+        <a href="contactUs.html">Contact Us</a>
+        <a href="logout.jsp">Logout</a>
+    </div>
+
+    <!-- Auction Form Container -->
     <div class="container">
         <div class="card">
             <div class="card-header">
